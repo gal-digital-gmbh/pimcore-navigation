@@ -11,3 +11,7 @@ services:
   GalDigitalGmbh\PimcoreNavigation\Renderer\Breadcrumbs:
     tags:
       - { name: pimcore.navigation.renderer, alias: app_breadcrumbs }
+
+  GalDigitalGmbh\PimcoreNavigation\Service\NavigationService: ~
+
+  GalDigitalGmbh\PimcoreNavigation\Twig\NavigationExtension: ~
