@@ -1,0 +1,46 @@
+{
+  "name": "gal-digital-gmbh/pimcore-navigation",
+  "version": "1.0.0",
+  "type": "symfony-bundle",
+  "description": "Add pimcore helpers for navigation",
+  "keywords": [
+    "pimcore",
+    "navigation",
+    "bundle"
+  ],
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Patrick Rupp",
+      "email": "patrick.rupp@gal-digital.de",
+      "homepage": "https://www.gal-digital.de",
+      "role": "Developer"
+    },
+    {
+      "name": "Dimitri Pfaffenrodt",
+      "email": "dimitri.pfaffenrodt@gal-digital.de",
+      "homepage": "https://www.gal-digital.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "symfony/framework-bundle": "^5.0|^6.0",
+    "symfony/yaml": "^5.4",
+    "pimcore/pimcore": "^10.4"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.8",
+    "phpstan/phpstan": "^1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "GalDigitalGmbh\\PimcoreNavigation\\": "src"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.0-dev"
+    }
+  }
+}

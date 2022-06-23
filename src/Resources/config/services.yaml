@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  GalDigitalGmbh\PimcoreNavigation\Renderer\Menu:
+    tags:
+      - { name: pimcore.navigation.renderer, alias: app_menu }
+    resource: '../../Renderer/Menu'
+
+  GalDigitalGmbh\PimcoreNavigation\Renderer\Breadcrumbs:
+    tags:
+      - { name: pimcore.navigation.renderer, alias: app_breadcrumbs }
