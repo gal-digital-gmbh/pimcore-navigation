@@ -5,7 +5,7 @@ namespace GalDigitalGmbh\PimcoreNavigation\Twig;
 use GalDigitalGmbh\PimcoreNavigation\Model\Breadcrumbs;
 use GalDigitalGmbh\PimcoreNavigation\Model\Menu;
 use GalDigitalGmbh\PimcoreNavigation\Model\Route;
-use App\Service\NavigationService;
+use GalDigitalGmbh\PimcoreNavigation\Service\NavigationService;
 use Symfony\Contracts\Service\Attribute\Required;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
