@@ -21,6 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *     cache?: bool|string|null,
  *     cacheLifetime?: ?int,
  *     pageCallback?: ?PageCallback,
+ *     markActiveTrail?: ?bool,
  *     addIdToPage?: ?bool,
  *     pageIdPrefix?: ?string,
  *     pageIdCallback?: ?PageIdCallback,
@@ -80,6 +81,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @method self setCacheLifetime(?int $cacheLifetime)
  * @method ?PageCallback getPageCallback()
  * @method self setPageCallback(?PageCallback $pageCallback)
+ * @method ?bool getMarkActiveTrail()
+ * @method self setMarkActiveTrail(?bool $markActiveTrail)
  * @method ?bool getAddIdToPage()
  * @method self setAddIdToPage(?bool $addIdToPage)
  * @method ?string getPageIdPrefix()
@@ -159,6 +162,7 @@ abstract class AbstractNavigation
         'maxDepth'                       => ['null', 'int'],
         'cache'                          => ['null', 'bool', 'string'],
         'cacheLifetime'                  => ['null', 'int'],
+        'markActiveTrail'                => ['null', 'bool'],
         'pageCallback'                   => ['null', 'callable'],
         'addIdToPage'                    => ['null', 'bool'],
         'pageIdPrefix'                   => ['null', 'string'],
@@ -199,6 +203,7 @@ abstract class AbstractNavigation
         'cache'                          => true,
         'cacheLifetime'                  => null,
         'pageCallback'                   => null,
+        'markActiveTrail'                => true,
         'addIdToPage'                    => false,
         'pageIdPrefix'                   => '',
         'pageIdCallback'                 => null,
@@ -272,6 +277,8 @@ abstract class AbstractNavigation
     protected ?int $cacheLifetime;
 
     protected ?Closure $pageCallback;
+
+    protected ?bool $markActiveTrail;
 
     protected ?bool $addIdToPage;
 

@@ -84,15 +84,16 @@ class NavigationService
     {
         $root = $navigation->getRoot();
 
-        $container = $this->builder->getNavigation(
-            $navigation->getActive(),
-            $root,
-            $navigation->getPageIdPrefix(),
-            $navigation->getPageCallback(),
-            $navigation->getCache() ?? true,
-            $navigation->getMaxDepth(),
-            $navigation->getCacheLifetime(),
-        );
+        $container = $this->builder->getNavigation([
+            'root'            => $root,
+            'active'          => $navigation->getActive(),
+            'maxDepth'        => $navigation->getMaxDepth(),
+            'pageCallback'    => $navigation->getPageCallback(),
+            'htmlMenuPrefix'  => $navigation->getPageIdPrefix(),
+            'markActiveTrail' => $navigation->getMarkActiveTrail() ?? true,
+            'cache'           => $navigation->getCache() ?? true,
+            'cacheLifetime'   => $navigation->getCacheLifetime(),
+        ]);
 
         if ($navigation->getAddRoot()) {
             if (!$root instanceof Document) {
