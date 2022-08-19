@@ -1,6 +1,6 @@
 {
   "name": "gal-digital-gmbh/pimcore-navigation",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "symfony-bundle",
   "description": "Add pimcore helpers for navigation",
   "keywords": [
@@ -27,7 +27,7 @@
     "php": "^8.0",
     "symfony/framework-bundle": "^5.0|^6.0",
     "symfony/yaml": "^5.4",
-    "pimcore/pimcore": "^10.4"
+    "pimcore/pimcore": "^10.5"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.8",

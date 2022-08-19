@@ -5,7 +5,7 @@ A highly flexible and fully compatible abstraction layer built on top of the Pim
 
 ## Requirements
 
-* Pimcore >= 10.4
+* Pimcore >= 10.5
 
 - [Installation](./docs/installation.md)
 - [Usage](./docs/usage.md)
