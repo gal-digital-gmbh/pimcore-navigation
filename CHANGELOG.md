@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1
+
+* Fixes setting of parent page when using addRoot option
+
 ## 2.0.0
 
 * Adds support for `markActiveTrail` option
