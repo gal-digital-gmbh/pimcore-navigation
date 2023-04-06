@@ -104,10 +104,16 @@ class NavigationService
                 $rootPage = $this->getRootPage($root, $navigation);
 
                 if ($navigation instanceof Breadcrumbs) {
+                    $pages = [];
+
                     /**
                      * @var Page<Page> $page
                      */
                     foreach ($container as $page) {
+                        $pages[] = $page;
+                    }
+
+                    foreach ($pages as $page) {
                         $page->setParent($rootPage);
                     }
                 }
