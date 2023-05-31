@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+
+* Stop iterating breadcrumb pages when no more parent is found
+
 ## 2.0.1
 
 * Fixes setting of parent page when using addRoot option
