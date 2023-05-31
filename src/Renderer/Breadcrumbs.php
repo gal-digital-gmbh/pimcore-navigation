@@ -111,7 +111,7 @@ class Breadcrumbs extends AbstractRenderer
                 . $html;
         }
 
-        if ($parent === $this->container) {
+        if ($parent === null || $parent === $this->container) {
             return $html;
         }
 
