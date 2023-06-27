@@ -1,20 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Model;
+
+use function array_merge;
 
 /**
  * @phpstan-import-type NavigationOptions from AbstractNavigation
  *
- * @method ?string getLeafClass()
- * @method self setLeafClass(?string $leafClass)
- * @method ?bool getDisableLeaf()
- * @method self setDisableLeaf(?bool $disableLeaf)
  * @method ?bool getAddLinkToLeaf()
- * @method self setAddLinkToLeaf(?bool $addLinkToLeaf)
+ * @method ?bool getDisableLeaf()
+ * @method ?string getLeafClass()
  * @method ?string getSeparator()
+ * @method self setAddLinkToLeaf(?bool $addLinkToLeaf)
+ * @method self setDisableLeaf(?bool $disableLeaf)
+ * @method self setLeafClass(?string $leafClass)
  * @method self setSeparator(?string $separator)
  */
-class Breadcrumbs extends AbstractNavigation
+final class Breadcrumbs extends AbstractNavigation
 {
     protected const OPTIONS = [
         'leafClass'     => ['null', 'string'],

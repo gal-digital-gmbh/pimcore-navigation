@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Model;
 
 use Pimcore\Model\Document as ModelDocument;
 use Pimcore\Navigation\Page;
 use Pimcore\Navigation\Page\Document;
 
-class Route extends Document
+final class Route extends Document
 {
     private ?string $name = null;
 
@@ -42,10 +44,8 @@ class Route extends Document
 
     /**
      * @param mixed[] $params
-     *
-     * @return Route<Page>
      */
-    public function setParams(?array $params): self
+    public function setParams(?array $params): static
     {
         $this->params = $params;
 
@@ -57,53 +57,27 @@ class Route extends Document
         return $this->path;
     }
 
-    /**
-     * @return Route<Page>
-     */
-    public function setPath(?string $path): self
+    public function setPath(?string $path): static
     {
         $this->path = $path;
 
         return $this;
     }
 
-    /**
-     * @param ModelDocument $document
-     *
-     * @return Route<Page>
-     */
-    public function setDocument($document)
+    public function setDocument(ModelDocument $document): static
     {
         return $this;
     }
 
-    /**
-     * @param int $documentId
-     *
-     * @return Route<Page>
-     */
-    public function setDocumentId($documentId)
+    public function setDocumentId(int $documentId): void
     {
-        return $this;
     }
 
-    /**
-     * @param string $documentType
-     *
-     * @return Route<Page>
-     */
-    public function setDocumentType($documentType)
+    public function setDocumentType(string $documentType): void
     {
-        return $this;
     }
 
-    /**
-     * @param string $realFullPath
-     *
-     * @return Route<Page>
-     */
-    public function setRealFullPath($realFullPath)
+    public function setRealFullPath(string $realFullPath): void
     {
-        return $this;
     }
 }

@@ -1,14 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Renderer;
 
-use GalDigitalGmbh\PimcoreNavigation\Model\AbstractNavigation;
 use Closure;
+use GalDigitalGmbh\PimcoreNavigation\Model\AbstractNavigation;
 use Pimcore\Navigation\Container;
 use Pimcore\Navigation\Page;
 use Pimcore\Navigation\Page\Document;
 use Pimcore\Navigation\Renderer\AbstractRenderer as BaseAbstractRenderer;
 use RecursiveIteratorIterator;
+
+use const ENT_COMPAT;
+use const PHP_INT_MAX;
+
+use function array_map;
+use function array_merge;
+use function explode;
+use function htmlspecialchars;
+use function implode;
+use function is_array;
+use function is_int;
+use function str_contains;
+use function substr_replace;
+use function trim;
+use function ucfirst;
 
 /**
  * @phpstan-type ActivePage array{
@@ -146,7 +163,6 @@ abstract class AbstractRenderer extends BaseAbstractRenderer
 
     /**
      * @phpstan-param 'nav'|'ul'|'li'|'page' $identifier
-     *
      * @param string[] $additionalClasses
      *
      * @return string[]
@@ -192,7 +208,6 @@ abstract class AbstractRenderer extends BaseAbstractRenderer
 
     /**
      * @phpstan-param self::TMPL_ID_* $identifier
-     *
      * @param Page<Page> $page
      */
     protected function renderInsertionTemplate(string $identifier, ?Page $page, int $depth): string
@@ -296,7 +311,6 @@ abstract class AbstractRenderer extends BaseAbstractRenderer
 
     /**
      * @phpstan-param 'nav'|'ul'|'li'|'page' $identifier
-     *
      * @param string[] $additionalClasses
      * @param string[]|null $attr
      */
@@ -362,7 +376,7 @@ abstract class AbstractRenderer extends BaseAbstractRenderer
             $attribs['rel']      = $page->getRelation();
         }
 
-        if (strstr($attribs['target'] ?? '', 'blank')) {
+        if (mb_strstr($attribs['target'] ?? '', 'blank')) {
             $attribs['rel'] ??= '';
 
             if (!str_contains($attribs['rel'], 'noopener')) {
@@ -396,10 +410,10 @@ abstract class AbstractRenderer extends BaseAbstractRenderer
     private function getHashedId(string $id, Closure $pageIdCallback): string
     {
         $pageIdPrefix = $this->navigation->getPageIdPrefix() ?? '';
-        $prefixPos    = strpos($id, $pageIdPrefix);
+        $prefixPos    = mb_strpos($id, $pageIdPrefix);
 
         if ($prefixPos !== false) {
-            $id = substr_replace($id, '', $prefixPos, strlen($pageIdPrefix));
+            $id = substr_replace($id, '', $prefixPos, mb_strlen($pageIdPrefix));
         }
 
         return $pageIdPrefix . $pageIdCallback($id);

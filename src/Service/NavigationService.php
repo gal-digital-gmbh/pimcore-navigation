@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Service;
 
 use Closure;
@@ -20,10 +22,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
+use const PHP_URL_PATH;
+
+use function array_merge;
+use function array_pop;
+use function explode;
+use function implode;
+use function mb_strtolower;
+use function parse_url;
+use function str_contains;
+use function trim;
+use function uniqid;
+
 /**
  * @phpstan-import-type NavigationOptions from AbstractNavigation
  */
-class NavigationService
+final class NavigationService
 {
     #[Required]
     public Builder $builder;
@@ -71,7 +85,7 @@ class NavigationService
     ): string {
         return $this->navigationExtension->render(
             $container,
-            $rendererName ?? 'app_' . strtolower(ClassUtils::getBaseName($navigation)),
+            $rendererName ?? 'app_' . mb_strtolower(ClassUtils::getBaseName($navigation)),
             $renderMethod ?? 'render',
             ...array_merge([$navigation], $arguments),
         );

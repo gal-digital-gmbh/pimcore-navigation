@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Renderer;
 
 use GalDigitalGmbh\PimcoreNavigation\Model\AbstractNavigation;
@@ -7,10 +9,16 @@ use GalDigitalGmbh\PimcoreNavigation\Model\Breadcrumbs as ModelBreadcrumbs;
 use Pimcore\Navigation\Container;
 use Pimcore\Navigation\Page;
 
+use function array_filter;
+use function array_map;
+use function implode;
+use function in_array;
+use function trim;
+
 /**
  * @phpstan-import-type ActivePage from AbstractRenderer
  */
-class Breadcrumbs extends AbstractRenderer
+final class Breadcrumbs extends AbstractRenderer
 {
     /**
      * @phpstan-param ActivePage $active
@@ -26,7 +34,7 @@ class Breadcrumbs extends AbstractRenderer
             return ['', -1];
         }
 
-        $activePage = $active['page']  ?? null;
+        $activePage = $active['page'] ?? null;
         $depth      = $active['depth'] ?? 0;
 
         if (!$activePage instanceof Page) {
@@ -68,7 +76,7 @@ class Breadcrumbs extends AbstractRenderer
     {
         $classes = array_filter(
             $classes,
-            fn (string $class) => !in_array($class, AbstractNavigation::PIMCORE_CSS_CLASSES),
+            static fn (string $class) => !in_array($class, AbstractNavigation::PIMCORE_CSS_CLASSES, true),
         );
 
         return implode(' ', array_map('trim', $classes));

@@ -1,32 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Model;
+
+use function array_merge;
 
 /**
  * @phpstan-import-type NavigationOptions from AbstractNavigation
  *
- * @method ?int getOrderForRoot()
- * @method self setOrderForRoot(?int $orderForRoot)
  * @method ?string getLiActiveClass()
- * @method self setLiActiveClass(?string $liActiveClass)
- * @method ?string getLiMainClass()
- * @method self setLiMainClass(?string $liMainClass)
- * @method ?string getLiMainActiveClass()
- * @method self setLiMainActiveClass(?string $liMainActiveClass)
  * @method ?string getLiActiveTrailClass()
- * @method self setLiActiveTrailClass(?string $liActiveTrailClass)
+ * @method ?string getLiMainActiveClass()
+ * @method ?string getLiMainClass()
  * @method ?string getLiWithSubpagesClass()
- * @method self setLiWithSubpagesClass(?string $liWithSubpagesClass)
+ * @method ?int getOrderForRoot()
  * @method string|bool|null getPageActiveClass()
- * @method self setPageActiveClass(string|bool|null $pageActiveClass)
- * @method string|bool|null getPageMainClass()
- * @method self setPageMainClass(string|bool|null $pageMainClass)
- * @method string|bool|null getPageMainActiveClass()
- * @method self setPageMainActiveClass(string|bool|null $pageMainActiveClass)
  * @method string|bool|null getPageActiveTrailClass()
+ * @method string|bool|null getPageMainActiveClass()
+ * @method string|bool|null getPageMainClass()
+ * @method self setLiActiveClass(?string $liActiveClass)
+ * @method self setLiActiveTrailClass(?string $liActiveTrailClass)
+ * @method self setLiMainActiveClass(?string $liMainActiveClass)
+ * @method self setLiMainClass(?string $liMainClass)
+ * @method self setLiWithSubpagesClass(?string $liWithSubpagesClass)
+ * @method self setOrderForRoot(?int $orderForRoot)
+ * @method self setPageActiveClass(string|bool|null $pageActiveClass)
  * @method self setPageActiveTrailClass(string|bool|null $pageActiveTrailClass)
+ * @method self setPageMainActiveClass(string|bool|null $pageMainActiveClass)
+ * @method self setPageMainClass(string|bool|null $pageMainClass)
  */
-class Menu extends AbstractNavigation
+final class Menu extends AbstractNavigation
 {
     protected const OPTIONS = [
         'orderForRoot'         => ['null', 'int'],

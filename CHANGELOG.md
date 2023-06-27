@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.0
+
+* Update bundle to support Pimcore 11
+* Make classes final
+* Update PHPStan
+* Update PHP-CS-Fixer
+
 ## 2.0.2
 
 * Stop iterating breadcrumb pages when no more parent is found
