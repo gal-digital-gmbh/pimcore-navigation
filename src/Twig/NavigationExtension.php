@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Twig;
 
 use GalDigitalGmbh\PimcoreNavigation\Model\Breadcrumbs;
@@ -10,7 +12,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class NavigationExtension extends AbstractExtension
+final class NavigationExtension extends AbstractExtension
 {
     #[Required]
     public NavigationService $navigationService;
@@ -18,9 +20,9 @@ class NavigationExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('menu', fn (array $options = []) => new Menu($options)),
-            new TwigFunction('breadcrumbs', fn (array $options = []) => new Breadcrumbs($options)),
-            new TwigFunction('route', fn () => new Route()),
+            new TwigFunction('menu', static fn (array $options = []) => new Menu($options)),
+            new TwigFunction('breadcrumbs', static fn (array $options = []) => new Breadcrumbs($options)),
+            new TwigFunction('route', static fn () => new Route()),
             new TwigFunction('build_navigation', [$this->navigationService, 'build']),
             new TwigFunction('render_navigation', [$this->navigationService, 'render'], ['is_safe' => ['html']]),
             new TwigFunction('menu_defaults_sensible', [

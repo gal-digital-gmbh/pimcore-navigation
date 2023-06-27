@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Renderer;
 
 use GalDigitalGmbh\PimcoreNavigation\Model\AbstractNavigation;
 use GalDigitalGmbh\PimcoreNavigation\Model\Menu as ModelMenu;
 use Pimcore\Navigation\Page;
 
+use function trim;
+
 /**
  * @phpstan-import-type ActivePage from AbstractRenderer
  */
-class Menu extends AbstractRenderer
+final class Menu extends AbstractRenderer
 {
     /**
      * @phpstan-param ActivePage $active

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GalDigitalGmbh\PimcoreNavigation\Model;
 
 use Closure;
@@ -8,10 +10,16 @@ use Pimcore\Navigation\Page;
 use RuntimeException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function array_merge;
+use function count;
+use function lcfirst;
+use function property_exists;
+use function sprintf;
+use function str_starts_with;
+
 /**
  * @phpstan-type PageCallback Closure(Page $page, ?Document $document): void
  * @phpstan-type PageIdCallback Closure(string $id): string
- *
  * @phpstan-type NavigationOptions array{
  *     root?: ?Document,
  *     active?: ?Document,
@@ -65,80 +73,80 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *     separator?: ?string,
  * }
  *
- * @method ?Document getRoot()
- * @method self setRoot(?Document $root)
  * @method ?Document getActive()
- * @method self setActive(?Document $active)
- * @method ?Route[] getRoutes()
- * @method self setRoutes(?Route[] $routes)
- * @method ?int getMinDepth()
- * @method self setMinDepth(?int $minDepth)
- * @method ?int getMaxDepth()
- * @method self setMaxDepth(?int $maxDepth)
- * @method bool|string|null getCache()
- * @method self setCache(bool|string|null $cache)
- * @method ?int getCacheLifetime()
- * @method self setCacheLifetime(?int $cacheLifetime)
- * @method ?PageCallback getPageCallback()
- * @method self setPageCallback(?PageCallback $pageCallback)
- * @method ?bool getMarkActiveTrail()
- * @method self setMarkActiveTrail(?bool $markActiveTrail)
  * @method ?bool getAddIdToPage()
- * @method self setAddIdToPage(?bool $addIdToPage)
- * @method ?string getPageIdPrefix()
- * @method self setPageIdPrefix(?string $pageIdPrefix)
- * @method ?PageIdCallback getPageIdCallback()
- * @method self setPageIdCallback(?PageIdCallback $pageIdCallback)
- * @method ?bool getRenderInvisible()
- * @method self setRenderInvisible(?bool $renderInvisible)
- * @method ?bool getRenderPageLabelRaw()
- * @method self setRenderPageLabelRaw(?bool $renderPageLabelRaw)
- * @method ?bool getOnlyRenderRoutes()
- * @method self setOnlyRenderRoutes(?bool $onlyRenderRoutes)
- * @method ?bool getAddPageClassToLi()
- * @method self setAddPageClassToLi(?bool $addPageClassToLi)
- * @method ?bool getRenderPageWithSubpagesAsButton()
- * @method self setRenderPageWithSubpagesAsButton(?bool $renderPageWithSubpagesAsButton)
- * @method ?bool getAddRoot()
- * @method self setAddRoot(?bool $addRoot)
- * @method ?string getRootClass()
- * @method self setRootClass(?string $rootClass)
  * @method ?bool getAddNavTag()
- * @method self setAddNavTag(?bool $addNavTag)
- * @method ?string getNavClass()
- * @method self setNavClass(?string $navClass)
- * @method ?array getNavAttr()
- * @method self setNavAttr(?array $navAttr)
- * @method string|array|null getUlClass()
- * @method self setUlClass(string|array|null $ulClass)
- * @method ?array getUlAttr()
- * @method self setUlAttr(?array $ulAttr)
- * @method string|array|null getLiClass()
- * @method self setLiClass(string|array|null $liClass)
+ * @method ?bool getAddPageClassToLi()
+ * @method ?bool getAddRoot()
+ * @method bool|string|null getCache()
+ * @method ?int getCacheLifetime()
  * @method ?array getLiAttr()
- * @method self setLiAttr(?array $liAttr)
- * @method string|array|null getPageClass()
- * @method self setPageClass(string|array|null $pageClass)
+ * @method string|array|null getLiClass()
+ * @method ?bool getMarkActiveTrail()
+ * @method ?int getMaxDepth()
+ * @method ?int getMinDepth()
+ * @method ?array getNavAttr()
+ * @method ?string getNavClass()
+ * @method ?bool getOnlyRenderRoutes()
  * @method ?array getPageAttr()
- * @method self setPageAttr(?array $pageAttr)
- * @method ?string getTemplateAfterOpeningNav()
- * @method self setTemplateAfterOpeningNav(?string $templateAfterOpeningNav)
- * @method ?string getTemplateBeforeClosingNav()
- * @method self setTemplateBeforeClosingNav(?string $templateBeforeClosingNav)
- * @method ?string getTemplateAfterOpeningUl()
- * @method self setTemplateAfterOpeningUl(?string $templateAfterOpeningUl)
- * @method ?string getTemplateBeforeClosingUl()
- * @method self setTemplateBeforeClosingUl(?string $templateBeforeClosingUl)
+ * @method ?PageCallback getPageCallback()
+ * @method string|array|null getPageClass()
+ * @method ?PageIdCallback getPageIdCallback()
+ * @method ?string getPageIdPrefix()
+ * @method ?bool getRenderInvisible()
+ * @method ?bool getRenderPageLabelRaw()
+ * @method ?bool getRenderPageWithSubpagesAsButton()
+ * @method ?Document getRoot()
+ * @method ?string getRootClass()
+ * @method ?Route[] getRoutes()
  * @method ?string getTemplateAfterOpeningLi()
- * @method self setTemplateAfterOpeningLi(?string $templateAfterOpeningLi)
- * @method ?string getTemplateBeforeClosingLi()
- * @method self setTemplateBeforeClosingLi(?string $templateBeforeClosingLi)
+ * @method ?string getTemplateAfterOpeningNav()
  * @method ?string getTemplateAfterOpeningPage()
- * @method self setTemplateAfterOpeningPage(?string $templateAfterOpeningPage)
+ * @method ?string getTemplateAfterOpeningUl()
+ * @method ?string getTemplateBeforeClosingLi()
+ * @method ?string getTemplateBeforeClosingNav()
  * @method ?string getTemplateBeforeClosingPage()
- * @method self setTemplateBeforeClosingPage(?string $templateBeforeClosingPage)
+ * @method ?string getTemplateBeforeClosingUl()
  * @method ?mixed[] getTemplateParams()
+ * @method ?array getUlAttr()
+ * @method string|array|null getUlClass()
+ * @method self setActive(?Document $active)
+ * @method self setAddIdToPage(?bool $addIdToPage)
+ * @method self setAddNavTag(?bool $addNavTag)
+ * @method self setAddPageClassToLi(?bool $addPageClassToLi)
+ * @method self setAddRoot(?bool $addRoot)
+ * @method self setCache(bool|string|null $cache)
+ * @method self setCacheLifetime(?int $cacheLifetime)
+ * @method self setLiAttr(?array $liAttr)
+ * @method self setLiClass(string|array|null $liClass)
+ * @method self setMarkActiveTrail(?bool $markActiveTrail)
+ * @method self setMaxDepth(?int $maxDepth)
+ * @method self setMinDepth(?int $minDepth)
+ * @method self setNavAttr(?array $navAttr)
+ * @method self setNavClass(?string $navClass)
+ * @method self setOnlyRenderRoutes(?bool $onlyRenderRoutes)
+ * @method self setPageAttr(?array $pageAttr)
+ * @method self setPageCallback(?PageCallback $pageCallback)
+ * @method self setPageClass(string|array|null $pageClass)
+ * @method self setPageIdCallback(?PageIdCallback $pageIdCallback)
+ * @method self setPageIdPrefix(?string $pageIdPrefix)
+ * @method self setRenderInvisible(?bool $renderInvisible)
+ * @method self setRenderPageLabelRaw(?bool $renderPageLabelRaw)
+ * @method self setRenderPageWithSubpagesAsButton(?bool $renderPageWithSubpagesAsButton)
+ * @method self setRoot(?Document $root)
+ * @method self setRootClass(?string $rootClass)
+ * @method self setRoutes(?Route[] $routes)
+ * @method self setTemplateAfterOpeningLi(?string $templateAfterOpeningLi)
+ * @method self setTemplateAfterOpeningNav(?string $templateAfterOpeningNav)
+ * @method self setTemplateAfterOpeningPage(?string $templateAfterOpeningPage)
+ * @method self setTemplateAfterOpeningUl(?string $templateAfterOpeningUl)
+ * @method self setTemplateBeforeClosingLi(?string $templateBeforeClosingLi)
+ * @method self setTemplateBeforeClosingNav(?string $templateBeforeClosingNav)
+ * @method self setTemplateBeforeClosingPage(?string $templateBeforeClosingPage)
+ * @method self setTemplateBeforeClosingUl(?string $templateBeforeClosingUl)
  * @method self setTemplateParams(?mixed[] $templateParams)
+ * @method self setUlAttr(?array $ulAttr)
+ * @method self setUlClass(string|array|null $ulClass)
  */
 abstract class AbstractNavigation
 {
@@ -382,7 +390,7 @@ abstract class AbstractNavigation
      */
     public function __call(string $method, array $arguments): mixed
     {
-        $property = lcfirst(substr($method, 3));
+        $property = lcfirst(mb_substr($method, 3));
 
         if (str_starts_with($method, 'set')) {
             return $this->set($property, $arguments);
@@ -395,7 +403,7 @@ abstract class AbstractNavigation
         throw new RuntimeException(sprintf(
             'Attempted to call undefined method "%s" of class %s.',
             $method,
-            get_class($this),
+            static::class,
         ));
     }
 
@@ -485,7 +493,7 @@ abstract class AbstractNavigation
             'Attempted to %s undefined property "%s" of class %s.',
             $type,
             $property,
-            get_class($this),
+            static::class,
         ));
     }
 }
