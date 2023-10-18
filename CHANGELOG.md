@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1
+
+* Change return types of navigation models from `self` to `static`
+
 ## 3.0.0
 
 * Update bundle to support Pimcore 11
