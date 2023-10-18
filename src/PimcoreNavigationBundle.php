@@ -6,6 +6,4 @@ namespace GalDigitalGmbh\PimcoreNavigation;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class PimcoreNavigationBundle extends Bundle
-{
-}
+final class PimcoreNavigationBundle extends Bundle {}

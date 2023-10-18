@@ -69,15 +69,9 @@ final class Route extends Document
         return $this;
     }
 
-    public function setDocumentId(int $documentId): void
-    {
-    }
+    public function setDocumentId(int $documentId): void {}
 
-    public function setDocumentType(string $documentType): void
-    {
-    }
+    public function setDocumentType(string $documentType): void {}
 
-    public function setRealFullPath(string $realFullPath): void
-    {
-    }
+    public function setRealFullPath(string $realFullPath): void {}
 }
