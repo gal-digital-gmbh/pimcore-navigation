@@ -13,10 +13,10 @@ use function array_merge;
  * @method ?bool getDisableLeaf()
  * @method ?string getLeafClass()
  * @method ?string getSeparator()
- * @method self setAddLinkToLeaf(?bool $addLinkToLeaf)
- * @method self setDisableLeaf(?bool $disableLeaf)
- * @method self setLeafClass(?string $leafClass)
- * @method self setSeparator(?string $separator)
+ * @method static setAddLinkToLeaf(?bool $addLinkToLeaf)
+ * @method static setDisableLeaf(?bool $disableLeaf)
+ * @method static setLeafClass(?string $leafClass)
+ * @method static setSeparator(?string $separator)
  */
 final class Breadcrumbs extends AbstractNavigation
 {
