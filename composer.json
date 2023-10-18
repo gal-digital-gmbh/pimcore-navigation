@@ -30,8 +30,8 @@
     "pimcore/pimcore": "^11.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.13",
-    "phpstan/phpstan": "^1.10"
+    "friendsofphp/php-cs-fixer": "3.35.1",
+    "phpstan/phpstan": "1.10.39"
   },
   "autoload": {
     "psr-4": {
