@@ -166,6 +166,7 @@ ___
 |`maxDepth`|`int\|null`<br>Default: null|The depth a page should at most have to be added to the container|
 |`cache`|`bool\|string\|null`<br>Default: true|string: custom cache key, bool: whether to cache the pimcore navigation builder output|
 |`cacheLifetime`|`int\|null`<br>Default: null|How long to cache the pimcore navigation builder output (in seconds)|
+|`rootCallback`|`Closure(Container): void`<br>Default: null|Callback applied to the root page for custom logic before rendering|
 |`pageCallback`|`Closure(Page, Document\|Route): void`<br>Default: null|Callback applied to each page for custom logic before rendering|
 |`addIdToPage`|`bool\|null`<br>Default: false|Whether to add the page id to the page tag|
 |`pageIdPrefix`|`string\|null`<br>Default: ''|Custom prefix to prepend to the id|

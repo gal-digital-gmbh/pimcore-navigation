@@ -6,6 +6,7 @@ namespace GalDigitalGmbh\PimcoreNavigation\Model;
 
 use Closure;
 use Pimcore\Model\Document;
+use Pimcore\Navigation\Container;
 use Pimcore\Navigation\Page;
 use RuntimeException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,11 +14,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use function array_merge;
 use function count;
 use function lcfirst;
+use function mb_substr;
 use function property_exists;
 use function sprintf;
 use function str_starts_with;
 
 /**
+ * @phpstan-type RootCallback Closure(Container $container): void
  * @phpstan-type PageCallback Closure(Page $page, ?Document $document): void
  * @phpstan-type PageIdCallback Closure(string $id): string
  * @phpstan-type NavigationOptions array{
@@ -28,6 +31,7 @@ use function str_starts_with;
  *     maxDepth?: ?int,
  *     cache?: bool|string|null,
  *     cacheLifetime?: ?int,
+ *     rootCallback?: ?RootCallback,
  *     pageCallback?: ?PageCallback,
  *     markActiveTrail?: ?bool,
  *     addIdToPage?: ?bool,
@@ -89,6 +93,7 @@ use function str_starts_with;
  * @method ?string getNavClass()
  * @method ?bool getOnlyRenderRoutes()
  * @method ?array getPageAttr()
+ * @method ?RootCallback getRootCallback()
  * @method ?PageCallback getPageCallback()
  * @method string|array|null getPageClass()
  * @method ?PageIdCallback getPageIdCallback()
@@ -126,6 +131,7 @@ use function str_starts_with;
  * @method static setNavClass(?string $navClass)
  * @method static setOnlyRenderRoutes(?bool $onlyRenderRoutes)
  * @method static setPageAttr(?array $pageAttr)
+ * @method static setRootCallback(?RootCallback $rootCallback)
  * @method static setPageCallback(?PageCallback $pageCallback)
  * @method static setPageClass(string|array|null $pageClass)
  * @method static setPageIdCallback(?PageIdCallback $pageIdCallback)
@@ -171,6 +177,7 @@ abstract class AbstractNavigation
         'cache'                          => ['null', 'bool', 'string'],
         'cacheLifetime'                  => ['null', 'int'],
         'markActiveTrail'                => ['null', 'bool'],
+        'rootCallback'                   => ['null', 'callable'],
         'pageCallback'                   => ['null', 'callable'],
         'addIdToPage'                    => ['null', 'bool'],
         'pageIdPrefix'                   => ['null', 'string'],
@@ -210,6 +217,7 @@ abstract class AbstractNavigation
         'maxDepth'                       => null,
         'cache'                          => true,
         'cacheLifetime'                  => null,
+        'rootCallback'                   => null,
         'pageCallback'                   => null,
         'markActiveTrail'                => true,
         'addIdToPage'                    => false,
@@ -283,6 +291,8 @@ abstract class AbstractNavigation
     protected bool|string|null $cache;
 
     protected ?int $cacheLifetime;
+
+    protected ?Closure $rootCallback;
 
     protected ?Closure $pageCallback;
 
