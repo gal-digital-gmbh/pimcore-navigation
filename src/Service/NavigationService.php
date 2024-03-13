@@ -102,6 +102,7 @@ final class NavigationService
             'root'            => $root,
             'active'          => $navigation->getActive(),
             'maxDepth'        => $navigation->getMaxDepth(),
+            'rootCallback'    => $navigation->getRootCallback(),
             'pageCallback'    => $navigation->getPageCallback(),
             'htmlMenuPrefix'  => $navigation->getPageIdPrefix(),
             'markActiveTrail' => $navigation->getMarkActiveTrail() ?? true,

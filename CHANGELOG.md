@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.0
+
+* Add support for `rootCallback` option that was introduced in Pimcore 11.2.0
+
 ## 3.0.1
 
 * Change return types of navigation models from `self` to `static`
