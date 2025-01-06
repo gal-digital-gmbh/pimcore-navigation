@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0
+
+* BREAKING CHANGE: Change page references inside insertion templates (e.g. beforeClosingUl now points to parent page)
+
 ## 2.0.2
 
 * Stop iterating breadcrumb pages when no more parent is found
