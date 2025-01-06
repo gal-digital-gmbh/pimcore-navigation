@@ -40,6 +40,7 @@ class Breadcrumbs extends AbstractRenderer
 
             $innerHtml .= $this->renderOpeningLi($activePage, $depth);
             $innerHtml .= $this->htmlify($activePage, $depth, !$this->navigation->getAddLinkToLeaf());
+            $innerHtml .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $activePage, $depth);
             $innerHtml .= '</li>';
         }
 
@@ -52,10 +53,10 @@ class Breadcrumbs extends AbstractRenderer
 
         $ulAttribs = $this->getAttribsWithClass(0, 'ul');
         $innerHtml = '<ul' . $this->_htmlAttribs($ulAttribs) . '>'
-            . $this->renderInsertionTemplate(self::TMPL_ID_AFTR_OPN_UL, $activePage, 0)
+            . $this->renderInsertionTemplate(self::TMPL_ID_AFTR_OPN_UL, null, 0)
             . $innerHtml;
 
-        $innerHtml .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_UL, $activePage, 0);
+        $innerHtml .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_UL, null, 0);
         $innerHtml .= '</ul>';
 
         return [$html . $innerHtml, -1];
@@ -107,6 +108,7 @@ class Breadcrumbs extends AbstractRenderer
             $html = $this->renderOpeningLi($parent, $depth)
                 . $this->htmlify($parent, $depth)
                 . ($renderSeparator ? ($this->navigation->getSeparator() ?? '') : '')
+                . $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $parent, $depth)
                 . '</li>'
                 . $html;
         }
