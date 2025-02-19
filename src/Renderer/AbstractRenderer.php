@@ -279,7 +279,7 @@ abstract class AbstractRenderer extends BaseAbstractRenderer
         return $html;
     }
 
-    private function renderNavigationClosing(string $html, int $prevDepth): string
+    protected function renderNavigationClosing(string $html, int $prevDepth): string
     {
         if (!$html) {
             return '';

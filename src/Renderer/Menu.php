@@ -16,6 +16,11 @@ use function trim;
 final class Menu extends AbstractRenderer
 {
     /**
+     * @var array<int, Page<Page>>
+     */
+    private array $prevPagesByDepth = [];
+
+    /**
      * @phpstan-param ActivePage $active
      *
      * @return array{
@@ -29,9 +34,10 @@ final class Menu extends AbstractRenderer
             return ['', -1];
         }
 
-        $pageIterator = $this->getPageIterator();
-        $minDepth     = $this->navigation->getMinDepth();
-        $prevDepth    = -1;
+        $pageIterator           = $this->getPageIterator();
+        $minDepth               = $this->navigation->getMinDepth();
+        $prevDepth              = -1;
+        $this->prevPagesByDepth = [];
 
         /**
          * @var Page<Page> $page
@@ -48,30 +54,54 @@ final class Menu extends AbstractRenderer
             if ($depth > $prevDepth) {
                 $ulAttribs = $this->getAttribsWithClass($depth, 'ul');
                 $html .= '<ul' . $this->_htmlAttribs($ulAttribs) . '>';
-                $html .= $this->renderInsertionTemplate(self::TMPL_ID_AFTR_OPN_UL, $page, $depth);
+
+                $useDepth    = $depth - 1;
+                $currentPage = null;
+
+                if ($depth > 0) {
+                    $currentPage = $this->prevPagesByDepth[$useDepth];
+                }
+
+                $html .= $this->renderInsertionTemplate(self::TMPL_ID_AFTR_OPN_UL, $currentPage, $useDepth);
             } elseif ($prevDepth > $depth) {
-                // FIXME
-                // BUG when used with setTemplateBeforeClosingPage for example, the refered page is wrong (previous one?)
                 for ($i = $prevDepth; $i > $depth; $i -= 1) {
-                    $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $page, $i);
+                    $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $this->prevPagesByDepth[$i], $i);
                     $html .= '</li>';
-                    $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_UL, $page, $i);
+                    $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_UL, $this->prevPagesByDepth[$i - 1], $i - 1);
                     $html .= '</ul>';
                 }
 
-                $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $page, $depth);
+                $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $this->prevPagesByDepth[$depth], $depth);
                 $html .= '</li>';
             } else {
-                $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $page, $depth);
+                $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $this->prevPagesByDepth[$depth], $depth);
                 $html .= '</li>';
             }
 
             $html .= $this->renderOpeningLi($page, $depth);
             $html .= $this->htmlify($page, $depth);
-            $prevDepth = $depth;
+
+            $prevDepth                      = $depth;
+            $this->prevPagesByDepth[$depth] = $page;
         }
 
         return [$html, $prevDepth];
+    }
+
+    protected function renderNavigationClosing(string $html, int $prevDepth): string
+    {
+        if (!$html) {
+            return '';
+        }
+
+        for ($i = $prevDepth + 1; $i > 0; $i -= 1) {
+            $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $this->prevPagesByDepth[$i - 1] ?? null, $i - 1);
+            $html .= '</li>';
+            $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_UL, $this->prevPagesByDepth[$i - 2] ?? null, $i - 2);
+            $html .= '</ul>';
+        }
+
+        return parent::renderNavigationClosing($html, $prevDepth);
     }
 
     /**
