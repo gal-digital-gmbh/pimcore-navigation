@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.1.1
+
+* Migrate menu renderer bugfix of Version 2.1.0 to Version 3 
+* Run php-cs-fixer
+
 ## 3.1.0
 
 * Add support for `rootCallback` option that was introduced in Pimcore 11.2.0
