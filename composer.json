@@ -1,6 +1,6 @@
 {
   "name": "gal-digital-gmbh/pimcore-navigation",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "type": "symfony-bundle",
   "description": "Add pimcore helpers for navigation",
   "keywords": [

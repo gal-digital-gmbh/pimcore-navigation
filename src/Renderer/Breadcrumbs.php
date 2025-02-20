@@ -48,6 +48,7 @@ final class Breadcrumbs extends AbstractRenderer
 
             $innerHtml .= $this->renderOpeningLi($activePage, $depth);
             $innerHtml .= $this->htmlify($activePage, $depth, !$this->navigation->getAddLinkToLeaf());
+            $innerHtml .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $activePage, $depth);
             $innerHtml .= '</li>';
         }
 
@@ -115,6 +116,7 @@ final class Breadcrumbs extends AbstractRenderer
             $html = $this->renderOpeningLi($parent, $depth)
                 . $this->htmlify($parent, $depth)
                 . ($renderSeparator ? ($this->navigation->getSeparator() ?? '') : '')
+                . $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, $parent, $depth)
                 . '</li>'
                 . $html;
         }

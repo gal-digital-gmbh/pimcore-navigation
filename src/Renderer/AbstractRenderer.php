@@ -248,6 +248,27 @@ abstract class AbstractRenderer extends BaseAbstractRenderer
         return $iterator;
     }
 
+    protected function renderNavigationClosing(string $html, int $prevDepth): string
+    {
+        if (!$html) {
+            return '';
+        }
+
+        for ($i = $prevDepth + 1; $i > 0; $i -= 1) {
+            $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, null, $i - 1);
+            $html .= '</li>';
+            $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_UL, null, $i - 1);
+            $html .= '</ul>';
+        }
+
+        if ($this->navigation->getAddNavTag() ?? true) {
+            $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_NAV, null, 0);
+            $html .= '</nav>';
+        }
+
+        return $html;
+    }
+
     /**
      * @param Container<Page> $container
      * @param mixed[] $arguments
@@ -275,27 +296,6 @@ abstract class AbstractRenderer extends BaseAbstractRenderer
         $navAttribs = $this->getAttribsWithClass(0, 'nav');
         $html       = '<nav' . $this->_htmlAttribs($navAttribs) . '>';
         $html .= $this->renderInsertionTemplate(self::TMPL_ID_AFTR_OPN_NAV, null, 0);
-
-        return $html;
-    }
-
-    private function renderNavigationClosing(string $html, int $prevDepth): string
-    {
-        if (!$html) {
-            return '';
-        }
-
-        for ($i = $prevDepth + 1; $i > 0; $i -= 1) {
-            $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_LI, null, $i - 1);
-            $html .= '</li>';
-            $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_UL, null, $i - 1);
-            $html .= '</ul>';
-        }
-
-        if ($this->navigation->getAddNavTag() ?? true) {
-            $html .= $this->renderInsertionTemplate(self::TMPL_ID_BFR_CLS_NAV, null, 0);
-            $html .= '</nav>';
-        }
 
         return $html;
     }
